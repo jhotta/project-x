@@ -107,99 +107,109 @@ sixadを介して受け取ることがでこるDualshock3の信号は、8byteの
 
 ###各種ボタン入力の仕様:
 
-5byte目:
+ボタン入力信号の仕様は以下の通り。
+
+5byte:
 
 | HEX | 00 | 01 |
 |-|-|-|
-| 意味 | ボタン押し下げ解除 |ボタン押し下げ|
+| 意味 | 押し下げ解除 |押し下げ|
 
-7byte目:
+7byte:
 
 | HEX | 01 |
 |-|-|
 | 意味 | ボタン信号フラッグ |
 
-8byte目:
+8byte:
 
 |HEX|00|01|02|03|04|05|06|07|
 |-|-|-|-|-|-|-|-|-|
-|ボタン種類|a|b|c|d|e|f|g|h|
+|ボタン種類|SELECT|L3|R3|START|↑|→|↓|←|
 
 |HEX|08|09|0A|0B|0C|0E|0D|0F|
 |-|-|-|-|-|-|-|-|-|
-|ボタン種類|a|b|c|d|e|f|g|h|
+|ボタン種類|L2|R2|L1|R1|△|○|×|□|
+
+- L3 = 左Joystick
+- R3 = 右Joystick
 
 8byteの一覧表:
 
 | 1byte | 2byte | 3byte | 4byte | 5byte | 6byte | 7byte | 8byte | ボタン | 操作 |
-|--------|---------|-------|-------|--------|--------|--------|-------|------|-----|
-|xx|xx|xx|xx|01|xx|01|00|xx|押し|
-|xx|xx|xx|xx|00|xx|01|00|xx|解除|
-|xx|xx|xx|xx|01|xx|01|01|押し||
-|xx|xx|xx|xx|00|xx|01|01|上げ|
-|xx|xx|xx|xx|01|xx|01|02|押し|
-|xx|xx|xx|xx|00|xx|01|02|上げ|
-|xx|xx|xx|xx|01|xx|01|03|xx|
-|xx|xx|xx|xx|00|xx|01|03|xx|
-|xx|xx|xx|xx|01|xx|01|04|xx|
-|xx|xx|xx|xx|00|xx|01|04|xx|
-|xx|xx|xx|xx|01|xx|01|05|xx|
-|xx|xx|xx|xx|00|xx|01|05|xx|
-|xx|xx|xx|xx|01|xx|01|06|xx|
-|xx|xx|xx|xx|00|xx|01|06|xx|
-|xx|xx|xx|xx|01|xx|01|07|xx|
-|xx|xx|xx|xx|00|xx|01|07|xx|
-|xx|xx|xx|xx|01|xx|01|08|xx|
-|xx|xx|xx|xx|00|xx|01|08|xx|
-|xx|xx|xx|xx|01|xx|01|09|xx|
-|xx|xx|xx|xx|00|xx|01|09|xx|
-|xx|xx|xx|xx|01|xx|01|0A|xx|
-|xx|xx|xx|xx|00|xx|01|0A|xx|
-|xx|xx|xx|xx|01|xx|01|0B|xx|
-|xx|xx|xx|xx|00|xx|01|0B|xx|
-|xx|xx|xx|xx|01|xx|01|0C|xx|
-|xx|xx|xx|xx|00|xx|01|0C|xx|
-|xx|xx|xx|xx|01|xx|01|0D|xx|
-|xx|xx|xx|xx|00|xx|01|0D|xx|
-|xx|xx|xx|xx|01|xx|01|0E|xx|
-|xx|xx|xx|xx|00|xx|01|0E|xx|
-|xx|xx|xx|xx|01|xx|01|0F|xx|
-|xx|xx|xx|xx|00|xx|01|0F|xx|
+|-|-|-|-|-|-|-|-|-|-|
+|xx|xx|xx|xx|01|xx|01|00|SELECT|押し|
+|xx|xx|xx|xx|00|xx|01|00|SELECT|解除|
+|xx|xx|xx|xx|01|xx|01|01|L3|押し|
+|xx|xx|xx|xx|00|xx|01|01|L3|解除|
+|xx|xx|xx|xx|01|xx|01|02|R3|押し|
+|xx|xx|xx|xx|00|xx|01|02|R3|解除|
+|xx|xx|xx|xx|01|xx|01|03|START|押し|
+|xx|xx|xx|xx|00|xx|01|03|START|解除|
+|xx|xx|xx|xx|01|xx|01|04|↑|押し|
+|xx|xx|xx|xx|00|xx|01|04|↑|解除|
+|xx|xx|xx|xx|01|xx|01|05|→|押し|
+|xx|xx|xx|xx|00|xx|01|05|→|解除|
+|xx|xx|xx|xx|01|xx|01|06|↓|押し|
+|xx|xx|xx|xx|00|xx|01|06|↓|解除|
+|xx|xx|xx|xx|01|xx|01|07|←|押し|
+|xx|xx|xx|xx|00|xx|01|07|←|解除|
+|xx|xx|xx|xx|01|xx|01|08|L2|押し|
+|xx|xx|xx|xx|00|xx|01|08|L2|解除|
+|xx|xx|xx|xx|01|xx|01|09|R2|押し|
+|xx|xx|xx|xx|00|xx|01|09|R2|解除|
+|xx|xx|xx|xx|01|xx|01|0A|L1|押し|
+|xx|xx|xx|xx|00|xx|01|0A|L1|解除|
+|xx|xx|xx|xx|01|xx|01|0B|R1|押し|
+|xx|xx|xx|xx|00|xx|01|0B|R1|解除|
+|xx|xx|xx|xx|01|xx|01|0C|△|押し|
+|xx|xx|xx|xx|00|xx|01|0C|△|解除|
+|xx|xx|xx|xx|01|xx|01|0D|○|押し|
+|xx|xx|xx|xx|00|xx|01|0D|○|解除|
+|xx|xx|xx|xx|01|xx|01|0E|×|押し|
+|xx|xx|xx|xx|00|xx|01|0E|×|解除|
+|xx|xx|xx|xx|01|xx|01|0F|□|押し|
+|xx|xx|xx|xx|00|xx|01|0F|□|解除|
 
 - 7byte目の"01"が、ボタンの押し下げ入力であるフラッグ
 - 8byte目が、押し下げられたボタンの種類
 - 5byte目が、"01は押し下げ”、“00は押し下げ解除”
 
-### ジョイスティックのアナログ入力の仕様:
+### アナログティック入力の仕様:
 
-6byte目:
+アナログスティックの信号仕様は以下の通り。
+
+6byte:
 
 | HEX | XX | 
 |-|-|-|
-| 意味 | 256の整数値をHEX変換 |
+| 意味 | 座標の値 |
 
-7byte目:
+- 上下座標の値は、手前側が正方向
+- 左右座標の値は、右側が正方向
+
+
+7byte:
 
 | HEX | 02 |
 |-|-|
-| 意味 | joystickアナログ信号フラッグ |
+| 意味 | アナログスティック信号フラッグ |
 
-8byte目:
+8byte:
 
 |HEX|00|01|02|03|
 |-|-|-|-|-|
-|joystickの種類|a|b|c|d|
-
+|アナログスティックの種類|左スティック前後|左スティック左右|右スティック前後|右スティック左右|
 
 8byteの一覧表:
 
-| 1byte | 2byte | 3byte | 4byte | 5byte | 6byte | 7byte | 8byte |
-|--------|---------|-------|-------|--------|--------|--------|-------|
-|xx|xx|xx|xx|xx|xx|02|xx|
-|xx|xx|xx|xx|xx|xx|02|xx|
-|xx|xx|xx|xx|xx|xx|02|xx|
-|xx|xx|xx|xx|xx|xx|02|xx|
+|1byte|2byte|3byte|4byte|5byte|6byte|7byte|8byte|スティック:方向|
+|-|-|-|-|-|-|-|-|-|
+|xx|xx|xx|xx|xx|xx|02|00|左:前後|
+|xx|xx|xx|xx|xx|xx|02|01|左:左右|
+|xx|xx|xx|xx|xx|xx|02|02|右:前後|
+|xx|xx|xx|xx|xx|xx|02|03|右:左右|
 
 - 7byte目の"02"が、ボタンの押し下げ入力であるフラッグ
-- 8byte目が、操作したjoystickの種類
-- 6byte目が、アナログ入力値
+- 8byte目が、操作したアナログスティックの種類
+- 6byte目が、座標値

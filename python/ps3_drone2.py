@@ -149,36 +149,34 @@ while 1:
 				now = datetime.datetime.now()
 				now_time = now.minute * 60000 + now.second * 1000 + now.microsecond/1000
 				a_data = int(data[5],16)
+				print a_data
+
 				if a_data >= 0 and a_data < 128:
 					a_data = a_data + 128
 				elif a_data >= 128 and a_data < 256:
 					a_data = a_data - 128
 
+				print a_data
 
 				if data[7] == '00':	#Left stick L-R		PS06
-					print a_data
 					a_data = (int(a_data/2.13) - 120) * -1
-					a_data =int(( a_data - 60) * 1.66 + 20)
+					a_data =　int(( a_data - 60) * 1.66 + 20)
 					if a_data <= 20:
 						a_data = 20
 					LLR = a_data
-					print str(LLR) + " :LLR"
 					joy = True
 					mode = "analog"
 							
 				elif data[7] == '01':	#Left stick U-D		PS05
-					print a_data
 					a_data = int(a_data/2.13)
 					a_data = a_data * 2
 					if a_data >= 120:
 						a_data = 120
 					LUD = a_data
-					print str(LUD) + " :LUD"
 					joy = True
 					mode = "analog"
 					
 				elif data[7] == '02':	#Right stick L-R	PS03
-					print a_data
 					a_data = (int(a_data/2.13) - 120) * -1
 					a_data = int(a_data * 1.66)
 					if a_data >= 100:
@@ -189,13 +187,11 @@ while 1:
 					mode = "analog"
 					
 				elif data[7] == '03':	#Right stick U-D	PS02
-					print a_data
 					a_data = (int(a_data/2.13) - 120) * -1
 					a_data = (a_data - 60 ) * 2
 					if a_data <= 0:
 						a_data = 0
 					RUD = a_data
-					print str(RUD) + " :RUD"
 					joy = True
 					mode = "analog"
 					
