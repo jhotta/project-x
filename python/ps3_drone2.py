@@ -22,6 +22,10 @@ while 1:
         	# print character
         	data += ['%02X' % ord(character)]
 		if len(data) == 8:
+			
+			print "*********************"
+			print data
+			
 			if data[6] == '01':
 				mode = "button" 
 				if data[4] == '01': #pressed button
@@ -149,6 +153,7 @@ while 1:
 				now = datetime.datetime.now()
 				now_time = now.minute * 60000 + now.second * 1000 + now.microsecond/1000
 				a_data = int(data[5],16)
+
 				print a_data
 
 				if a_data >= 0 and a_data < 128:
@@ -160,12 +165,13 @@ while 1:
 
 				if data[7] == '00':	#Left stick L-R		PS06
 					a_data = (int(a_data/2.13) - 120) * -1
-					a_data =　int(( a_data - 60) * 1.66 + 20)
+					a_data = int(( a_data - 60) * 1.66 + 20)
 					if a_data <= 20:
 						a_data = 20
 					LLR = a_data
 					joy = True
 					mode = "analog"
+					print "LLR"
 							
 				elif data[7] == '01':	#Left stick U-D		PS05
 					a_data = int(a_data/2.13)
@@ -175,6 +181,7 @@ while 1:
 					LUD = a_data
 					joy = True
 					mode = "analog"
+					print "LUD"
 					
 				elif data[7] == '02':	#Right stick L-R	PS03
 					a_data = (int(a_data/2.13) - 120) * -1
@@ -182,9 +189,9 @@ while 1:
 					if a_data >= 100:
 						a_data = 100
 					RLR = a_data
-					print str(RLR) + " :RLR"
 					joy = True
 					mode = "analog"
+					print "RLR"
 					
 				elif data[7] == '03':	#Right stick U-D	PS02
 					a_data = (int(a_data/2.13) - 120) * -1
@@ -194,6 +201,22 @@ while 1:
 					RUD = a_data
 					joy = True
 					mode = "analog"
+					print "RUD"
+
+				elif data[7] == '04':	
+					joy = True
+					mode = "analog"
+					print "04"
+
+				elif data[7] == '05':
+					joy = True
+					mode = "analog"
+					print "04"
+
+				elif data[7] == '06':
+					joy = True
+					mode = "analog"
+					print "06"
 					
 				else:
 					joy = False
@@ -204,6 +227,13 @@ while 1:
 					# com.write("ms : " + str(dif) + "\r\n")
 					now = datetime.datetime.now()
 					before_time = now.minute * 60000 + now.second * 1000 + now.microsecond/1000
+			
+			elif data[6] == '82':
+				print "82----------------------------------------"
+
+			elif data[6] == '81':
+				print "81;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;"
+
 			sys.stdout.flush()
 			data = []			
 	now = datetime.datetime.now()
