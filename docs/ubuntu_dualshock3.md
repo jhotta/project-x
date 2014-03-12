@@ -89,9 +89,16 @@ HEX文字列が表示されればDuealshock3とPCとのペアリングは完了�
 
 ```
 $ sudo sixad -start
+sixad-bin[2533]: started
+sixad-bin[2533]: sixad started, press the PS button now
 ```
 
 ここで、指示に従ってPSを長押すると、 Dualshock3が振動し、その後LEDが順次点灯を始め、どれかの番号のLEDで泊まります。
+
+```
+sixad-sixaxis[2539]: started
+sixad-sixaxis[2539]: Connected 'PLAYSTATION(R)3 Controller (00:06:F7:02:87:DF)' [Battery 05]
+```
 
 Daualshock3の通信の出力は、"/dev/inupt/js0"になります。1番のLEDが点灯した場合はjs０、２番のLEDが点灯した場合はjs1という命名規則になります。
 
@@ -111,15 +118,15 @@ sixadを介して受け取ることがでこるDualshock3の信号は、8byteの
 
 5byte:
 
-| HEX | 00 | 01 |
+|HEX|00|01|
 |-|-|-|
-| 意味 | 押し下げ解除 |押し下げ|
+|意味|押し下げ解除|押し下げ|
 
 7byte:
 
-| HEX | 01 |
+|HEX|01|
 |-|-|
-| 意味 | ボタン信号フラッグ |
+|意味|ボタン信号フラッグ|
 
 8byte:
 
@@ -136,7 +143,7 @@ sixadを介して受け取ることがでこるDualshock3の信号は、8byteの
 
 8byteの一覧表:
 
-| 1byte | 2byte | 3byte | 4byte | 5byte | 6byte | 7byte | 8byte | ボタン | 操作 |
+|1byte|2byte|3byte|4byte|5byte|6byte|7byte|8byte|ボタン|操作|
 |-|-|-|-|-|-|-|-|-|-|
 |xx|xx|xx|xx|01|xx|01|00|SELECT|押し|
 |xx|xx|xx|xx|00|xx|01|00|SELECT|解除|
@@ -181,9 +188,9 @@ sixadを介して受け取ることがでこるDualshock3の信号は、8byteの
 
 6byte:
 
-| HEX | XX | 
+|HEX|XX| 
 |-|-|-|
-| 意味 | 座標の値 |
+|意味|座標の値|
 
 - 上下座標の値は、手前側が正方向
 - 左右座標の値は、右側が正方向
@@ -191,15 +198,15 @@ sixadを介して受け取ることがでこるDualshock3の信号は、8byteの
 
 7byte:
 
-| HEX | 02 |
+|HEX|02|
 |-|-|
-| 意味 | アナログスティック信号フラッグ |
+|意味|アナログスティック信号フラッグ|
 
 8byte:
 
-|HEX|00|01|02|03|
-|-|-|-|-|-|
-|アナログスティックの種類|左スティック前後|左スティック左右|右スティック前後|右スティック左右|
+|HEX|00|01|02|03|04|05|06|
+|-|-|-|-|-|-|-|-|
+|アナログスティックの種類|左スティック前後|左スティック左右|右スティック前後|右スティック左右|軸センサー|軸センサー|軸センサー|
 
 8byteの一覧表:
 
@@ -213,3 +220,11 @@ sixadを介して受け取ることがでこるDualshock3の信号は、8byteの
 - 7byte目の"02"が、ボタンの押し下げ入力であるフラッグ
 - 8byte目が、操作したアナログスティックの種類
 - 6byte目が、座標値
+
+### その他の信号
+
+7byte:
+
+|HEX|81|82|
+|-|-|-|
+|意味|不明|不明|
