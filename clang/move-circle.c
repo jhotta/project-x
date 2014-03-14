@@ -8,7 +8,7 @@ int main(int argc, char* argv[])
 
 	int i;
 	float *p;
-	double w = 320, h = 240;
+	double w = 640, h = 480;
 
 	IplImage *src_img = 0, *gray_img = 0;
 	CvMemStorage *storage;
