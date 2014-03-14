@@ -1,16 +1,9 @@
-CXXFLAGS = \
--I/usr/local/include
-
-LDFLAGS = \
--L/usr/local/lib \
--lopencv_core \
--lopencv_highgui \
--lopencv_features2d \
--lopencv_imgproc \
--lopencv_nonfree
+LDFLAGS  += `pkg-config opencv --libs`
+CFLAGS   += `pkg-config opencv --cflags`
+CXXFLAGS += `pkg-config opencv --cflags`
 
 circle:
-	gcc -o hough_circle hough_circle.c `pkg-config --cflags opencv` `pkg-config --libs opencv` -lm
+	gcc -o move-circle move-circle.c $(CXXFLAGS) $(LDFLAGS) -lm
 
 circle2:
-	g++ $(CXXFLAGS) $(LDFLAGS) main.cpp
+	g++ -o main main.cpp $(CXXFLAGS) $(LDFLAGS)
