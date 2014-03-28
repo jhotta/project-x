@@ -1,0 +1,52 @@
+---
+- hosts: all
+  remote_user: vagrant
+
+  vars:
+    home_dir: /home/vagrant
+
+  tasks:
+    - name: "add IP address of archive.ubuntu.com" 
+      lineinfile: dest=/etc/hosts
+              regexp='archive\.ubuntu\.com$'
+              line="91.189.92.200 archive.ubuntu.com"
+              owner=root
+              group=root
+              mode=0644
+      sudo: yes
+
+    - name: "add IP address of archive.ubuntu.com" 
+      lineinfile: dest=/etc/hosts
+              regexp='security\.ubuntu\.com$'
+              line="91.189.92.200 security.ubuntu.com"
+              owner=root
+              group=root
+              mode=0644
+      sudo: yes
+
+    - name: "add IP address of github.com" 
+      lineinfile: dest=/etc/hosts
+              regexp='github\.com$'
+              line="192.30.252.131 github.com"
+              owner=root
+              group=root
+              mode=0644
+      sudo: yes
+
+    - name: "add IP address of code.google.com" 
+      lineinfile: dest=/etc/hosts
+              regexp='code\.google\.com$'
+              line="74.125.235.129 code.google.com"
+              owner=root
+              group=root
+              mode=0644
+      sudo: yes
+
+    - name: "apt-get install git"
+      apt:  pkg=git
+            update_cache=yes
+            cache_valid_time=3600
+      sudo: yes
+
+
+  handlers:
