@@ -15,6 +15,13 @@ joystickの情報をpythonから読み込むためには、pygameをインスー
 参考にしたサイト:  
 [installing pygame on osx mountain lion](http://juliaelman.com/blog/2013/04/02/installing-pygame-on-osx-mountain-lion/)
 
+### Ubuntu
+`$ sudo apt-get install python-pygame`
+
+#### depending packages:
+`libmikmod2 libportmidi0 libsdl-mixer1.2 libsdl-ttf2.0-0 libsmpeg0`
+
+
 ### paygame仕様:
 
 `dir()`
