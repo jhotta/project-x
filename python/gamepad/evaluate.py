@@ -22,18 +22,22 @@ def init_gamepad():
         print 'Joystickが見つかりませんでした。'
 
 def get_gamepad_action(j):
+    axis_value = {'0':0.0, '1':0.0, '2':0.0, '3':0.0}
     pygame.init()
     while 1:
+        # print axis_value
         for e in pygame.event.get(): # イベントチェック
-            print e
+            # print e
             # Joystick関連のイベントチェック
             if e.type == pygame.JOYAXISMOTION: # 7
-                print e.axis
-                print e.value
-                rx , ry = j.get_axis(0), j.get_axis(1)
-                lx , ly = j.get_axis(2), j.get_axis(3)
-                print 'rx and ry : ' + str(rx) +' , '+ str(ry)
-                print 'lx and ly : ' + str(lx) +' , '+ str(ly)
+                # print str(e.axis)
+                # print e.value
+                axis_value[str(e.axis)] = e.value
+                print axis_value
+                # rx , ry = j.get_axis(0), j.get_axis(1)
+                # lx , ly = j.get_axis(2), j.get_axis(3)
+                #print 'rx and ry : ' + str(rx) +' , '+ str(ry)
+                #print 'lx and ly : ' + str(lx) +' , '+ str(ly)
             elif e.type == pygame.JOYBALLMOTION: # 8
                 print e.value
                 print 'ball motion'
@@ -43,7 +47,6 @@ def get_gamepad_action(j):
                 # print j.get_hat(0)
                 print 'hat motion'
             elif e.type == pygame.JOYBUTTONDOWN: # 10
-                print e.type
                 print str(e.button)+'番目のボタンが押された'
             elif e.type == pygame.JOYBUTTONUP: # 11
                 print str(e.button)+'番目のボタンが離された'
