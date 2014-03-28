@@ -52,5 +52,5 @@ def get_gamepad_action(j):
                 print str(e.button)+'番目のボタンが離された'
 
 if __name__ == '__main__':
-    pad_instance = init_gamepad()
-    get_gamepad_action(pad_instance)
+    pad = init_gamepad()
+    get_gamepad_action(pad)
