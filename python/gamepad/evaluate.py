@@ -3,6 +3,7 @@
 # パクったファイルなので、内容にはこだわらないことにする。
 
 import pygame
+from pygame.locals import *
 
 def init_gamepad():
     pygame.joystick.init()
@@ -25,11 +26,17 @@ def get_gamepad_action(j):
     axis_value = {'0':0.0, '1':0.0, '2':0.0, '3':0.0}
     pygame.init()
     pygame.display.set_mode((240, 240))
+    pygame.display.set_caption('Joystick') # タイトル
     while 1:
         # print axis_value
         for e in pygame.event.get(): # イベントチェック
             # print e
             # Joystick関連のイベントチェック
+            if e.type == QUIT: # 終了が押された？
+                return
+            if (e.type == KEYDOWN and
+                e.key  == K_ESCAPE): # ESCが押された？
+                return
             if e.type == pygame.JOYAXISMOTION: # 7
                 # print str(e.axis)
                 # print e.value

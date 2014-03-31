@@ -5,9 +5,10 @@
 import sys
 #import time
 import pygame
-import pygame.surfarray
-import pygame.transform
-import libardrone
+from pygame.locals import *
+#import pygame.surfarray
+#import pygame.transform
+import libardrone.libardrone as ard
 
 
 def init_gamepad():
@@ -21,12 +22,12 @@ def init_gamepad():
 
 
 def init_ardrone():
-  #try:
-    drone = libardrone.ARDrone()
+  try:
+    drone = ard.ARDrone()
     drone.reset()
     return drone
-  #except:
-  #  print "Unexpected error:", sys.exc_info()[0]
+  except:
+    print "Unexpected error:", sys.exc_info()[0]
 
 
 def mTakeoff(drone):
@@ -62,11 +63,16 @@ def get_gamepad_action(pad, drone):
 
   pygame.init()
   pygame.display.set_mode((Width, Hight))
-  # clock = pygame.time.Clock()
-  # running = True
+  clock = pygame.time.Clock()
+  running = True
 
-  while 1:
+  while running:
     for e in pygame.event.get():
+      if e.type == QUIT: # 終了が押された？
+        return
+      if (e.type == KEYDOWN and
+        e.key  == K_ESCAPE): # ESCが押された？
+        return
       if e.type == pygame.JOYAXISMOTION: # 7
         axis_value[str(e.axis)] = e.value
         print axis_value
