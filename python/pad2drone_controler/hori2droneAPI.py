@@ -3,7 +3,7 @@
 # import pdb; pdb.set_trace()
 
 import sys
-import time
+#import time
 import pygame
 import pygame.surfarray
 import pygame.transform
@@ -21,17 +21,23 @@ def init_gamepad():
 
 
 def init_ardrone():
-  try:
-    drone = libardrone.ARDrone(True)
+  #try:
+    drone = libardrone.ARDrone()
     drone.reset()
     return drone
-  except:
-    print "Unexpected error:", sys.exc_info()[0]
+  #except:
+  #  print "Unexpected error:", sys.exc_info()[0]
 
 
 def mTakeoff(drone):
   print "Takeoff...",
-  drone.halt()
+  drone.takeoff()
+  print "Ok."
+
+
+def mHovering(drone):
+  print "Hovering..."
+  drone.hover()
   print "Ok."
 
 
@@ -39,6 +45,8 @@ def mLanding(drone):
   print "Landing...",
   drone.land()
   print "Ok."
+  full_hatl(drone)
+
 
 def full_hatl(drone):
   print "Shutting down...",
@@ -50,6 +58,7 @@ def get_gamepad_action(pad, drone):
 
   Width, Hight = 320, 240
   axis_value = {'0':0.0, '1':0.0, '2':0.0, '3':0.0}
+  bt_status = [0,0,0,0,0,0,1,1,0,0,0,0,0]
 
   pygame.init()
   pygame.display.set_mode((Width, Hight))
@@ -63,21 +72,40 @@ def get_gamepad_action(pad, drone):
         print axis_value
       elif e.type == pygame.JOYHATMOTION: # 9
         print e.value
-        #print 'hat motion'
+        print 'hat motion'
       elif e.type == pygame.JOYBUTTONDOWN: # 10
         print "%s button pushed" % str(e.button)
+        bt_status[e.button] = 1
+        if bt_status[4] == 1 and bt_status[5] == 1:
+          print "takeoff"
+          #mTakeoff(drone)
+        elif bt_status[6] == 1 and bt_status[7] == 1:
+          print "Landing"
+          #mLanding(drone)
+        elif bt_status[0] == 1:
+          print "away(left turn)"
+        elif bt_status[1] == 1:
+          print "going down"
+        elif bt_status[2] == 1:
+          print "comeby(right turn)"
+        elif bt_status[3] == 1:
+          print "going up"
+        print bt_status
       elif e.type == pygame.JOYBUTTONUP: # 11
         print "%s button released"% str(e.button)
+        bt_status[e.button] = 0
+        print bt_status
+    # print bt_status
 
 
 def main():
   pad = init_gamepad()
   drone = init_ardrone()
   get_gamepad_action(pad, drone)
-  mTakeoff(drone)
-  time.sleep(1)
-  mLanding(drone)
-  full_hatl(drone)
+  # mTakeoff(drone)
+  # mHovering(drone)
+  # # time.sleep(1)
+  # mLanding(drone)
 
 
 if __name__ == "__main__":
