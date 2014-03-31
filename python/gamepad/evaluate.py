@@ -24,6 +24,7 @@ def init_gamepad():
 def get_gamepad_action(j):
     axis_value = {'0':0.0, '1':0.0, '2':0.0, '3':0.0}
     pygame.init()
+    pygame.display.set_mode((240, 240))
     while 1:
         # print axis_value
         for e in pygame.event.get(): # イベントチェック
