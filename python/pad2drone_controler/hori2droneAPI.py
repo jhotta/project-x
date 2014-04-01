@@ -108,10 +108,10 @@ def main():
   pad = init_gamepad()
   drone = init_ardrone()
   get_gamepad_action(pad, drone)
-  # mTakeoff(drone)
+  mTakeoff(drone)
   # mHovering(drone)
   # # time.sleep(1)
-  # mLanding(drone)
+  mLanding(drone)
 
 
 if __name__ == "__main__":
