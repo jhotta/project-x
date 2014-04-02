@@ -45,6 +45,5 @@ def main():
   mLanding(drone)
   drone.halt()
 
-
 if __name__ == "__main__":
   main()

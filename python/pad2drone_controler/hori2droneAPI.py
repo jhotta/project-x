@@ -10,7 +10,6 @@ from pygame.locals import *
 #import pygame.transform
 import libardrone.libardrone as ard
 
-
 def init_gamepad():
   pygame.joystick.init()
   try:
@@ -20,40 +19,13 @@ def init_gamepad():
   except pygame.error:
     print "Unexpected error:", sys.exc_info()[0]
 
-
 def init_ardrone():
   try:
     drone = ard.ARDrone()
     drone.reset()
     return drone
   except:
-    print "Unexpected error:", sys.exc_info()[0]
-
-
-def mTakeoff(drone):
-  print "Takeoff...",
-  drone.takeoff()
-  print "Ok."
-
-
-def mHovering(drone):
-  print "Hovering..."
-  drone.hover()
-  print "Ok."
-
-
-def mLanding(drone):
-  print "Landing...",
-  drone.land()
-  print "Ok."
-  full_hatl(drone)
-
-
-def full_hatl(drone):
-  print "Shutting down...",
-  drone.halt()
-  print "Ok."
-
+    print "Unexpected error:", sys.exc_info()[0
 
 def get_gamepad_action(pad, drone):
 
@@ -79,40 +51,52 @@ def get_gamepad_action(pad, drone):
       elif e.type == pygame.JOYHATMOTION: # 9
         print e.value
         print 'hat motion'
+        if e.value == (0, 1):
+          print "move forward"
+          drone.move_forward()
+        elif e.value == (0, -1):
+          print "move backward"
+          drone.move_backward()
+        elif e.value == (-1, 0):
+          print "move left"
+          drone.move_left()
+        elif e.value == (1, 0):
+          print "move right"
+          drone.move_right()
+
       elif e.type == pygame.JOYBUTTONDOWN: # 10
         print "%s button pushed" % str(e.button)
         bt_status[e.button] = 1
         if bt_status[4] == 1 and bt_status[5] == 1:
           print "takeoff"
-          #mTakeoff(drone)
+          drone.takeoff()
         elif bt_status[6] == 1 and bt_status[7] == 1:
-          print "Landing"
-          #mLanding(drone)
+          print "landing"
+          drone.lannd()
+          drone.halt()
         elif bt_status[0] == 1:
-          print "away(left turn)"
+          print "away(turn left)"
+          drone.turn_left()
         elif bt_status[1] == 1:
           print "going down"
+          drone.move_down()
         elif bt_status[2] == 1:
-          print "comeby(right turn)"
+          print "comeby(turn right)"
+          drone.turn_right()
         elif bt_status[3] == 1:
           print "going up"
+          drone.move_up()
         print bt_status
       elif e.type == pygame.JOYBUTTONUP: # 11
         print "%s button released"% str(e.button)
         bt_status[e.button] = 0
         print bt_status
-    # print bt_status
-
+        drone.trim()
 
 def main():
   pad = init_gamepad()
   drone = init_ardrone()
   get_gamepad_action(pad, drone)
-  mTakeoff(drone)
-  # mHovering(drone)
-  # # time.sleep(1)
-  mLanding(drone)
-
 
 if __name__ == "__main__":
   main()
