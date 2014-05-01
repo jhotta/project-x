@@ -3,8 +3,9 @@
 # import pdb; pdb.set_trace()
 
 # import sys
+import logging
 import time
-import libardrone.libardrone as ard
+#import libardrone.libardrone as ard
 
 def keepCmmSleep(drone, sec):
   resolution = 30.0
@@ -16,58 +17,97 @@ def keepCmmSleep(drone, sec):
     n += 1
   return
 
+def travel(direction, unit, resolution):
+  t = 1.0/resolution
+  i = 0
+  while i <= unit:
+    #drone.apply_command(drone.forward())
+    print direction
+    time.sleep(t)
+    #drone.apply_command(drone.hover())
+    i += 1
 
-def main():
-  # intilize
-  drone = ard.ARDrone()
-  drone.reset()
-  print "reset done"
-  drone.set_speed = 0.1
-  print drone.get_navdata()
-  keepCmmSleep(1)
-
-  # takeoff
-  print "taking off"
-  drone.apply_command(takeoff)
-  print drone.get_navdata()
-  print "havering"
-  keepCmmSleep(8)
-
-  # # hight speed left turn
-  # #drone.speed = 0.5
-  # drone.turn_left()
-  # print "trun left"
-  # keepCmmSleep(2)
-
-  # # haver
-  # drone.haver()
-  # keepCmmSleep(2)
-
-  # drone.move_right()
+def main(flight_route, resolution):
+  logging.basicConfig(filename='flight.log',
+                      level=logging.DEBUG)
+  # # intilize
+  #drone = ard.ARDrone()
+  # drone.reset()
+  # print "reset done"
+  # drone.set_speed = 0.1
+  # print drone.get_navdata()
   # keepCmmSleep(1)
 
-  # # haver
-  # drone.haver()
-  # keepCmmSleep(2)
-
-  # # low speed right turn
-  # drone.set_speed = 0.2
-  # drone.turn_right()
+  # # takeoff
+  # print "taking off"
+  # drone.apply_command(drone.takeoff())
+  # print drone.get_navdata()
+  # print "havering"
   # keepCmmSleep(1)
 
+  # move to inital position
+  # drone.apply_command(drone.forward())
+  # print drone.get_navdata()
+  # print "havering"
+  # keepCmmSleep(1)
+
+  # programed flight
+
+  for item in flight_route:
+    direction, unit = item
+    # print "%s:%f" % (direction, unit)
+    if direction == "foward":
+      logging.debug(item)
+      travel(direction, unit, resolution)
+    elif direction == "back":
+      logging.debug(item)
+      travel(direction, unit, resolution)
+    elif direction == "right":
+      logging.debug(item)
+      travel(direction, unit, resolution)
+    elif direction == "left":
+      logging.debug(item)
+      travel(direction, unit, resolution)
+    elif direction == "hover":
+      logging.debug(item)
+      travel(direction, unit, resolution)
+    else:
+      print "error"
+    navdata = "%s:%f \n" % (direction, unit)
+    f = open('flight_recoder.txt', 'a+')
+    f.write(navdata)
+    f.close()
 
 
 
-  # landing
-  print "landiing"
-  drone.apply_command(land)
-  print drone.get_navdata()
-  keepCmmSleep(2)
-  print "landed"
-  drone.apply_command(halt)
-  print drone.get_navdata()
-  print "halted"
+  # # landing
+  # print "landiing"
+  # drone.apply_command(drone.land())
+  # print drone.get_navdata()
+  # keepCmmSleep(2)
+  # print "landed"
+  # drone.apply_command(drone.halt())
+  # print drone.get_navdata()
+  # print "halted"
+
 
 
 if __name__ == "__main__":
-  main()
+
+  flight_route = (
+         ("foward", 40),
+         ("right", 160),
+         ("hover", 50),
+         ("foward", 160),
+         ("hover", 50),
+         ("left", 160),
+         ("hover", 50),
+         ("right", 150),
+         ("hover", 50),
+         ("back", 160),
+         ("hover", 50),
+         ("left", 150),
+         ("hover", 50)
+         )
+
+  main(flight_route, 10)
