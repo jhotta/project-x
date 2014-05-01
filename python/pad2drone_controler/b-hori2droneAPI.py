@@ -3,7 +3,7 @@
 # import pdb; pdb.set_trace()
 
 import sys
-#import time
+import time
 import pygame
 from pygame.locals import *
 #import pygame.surfarray
@@ -23,21 +23,32 @@ def init_ardrone():
   try:
     drone = ard.ARDrone()
     drone.reset()
-    return drone
+    time.sleep(1)
+    print "drone reset done"
+    return drone()
   except:
     print "Unexpected error:", sys.exc_info()[0
 
 def get_gamepad_action(pad, drone):
 
+  # pygame window setting
   Width, Hight = 320, 240
+
+  # gamepad value object
   axis_value = {'0':0.0, '1':0.0, '2':0.0, '3':0.0}
   bt_status = [0,0,0,0,0,0,1,1,0,0,0,0,0]
 
+  # movement speed seetting
+  default_speed = 0.2
+  turning_speed = 0.5
+
+  # pyagame initalization
   pygame.init()
   pygame.display.set_mode((Width, Hight))
   clock = pygame.time.Clock()
   running = True
 
+  # gamepad action to drone API command
   while running:
     for e in pygame.event.get():
       if e.type == QUIT: # 終了が押された？
@@ -76,12 +87,14 @@ def get_gamepad_action(pad, drone):
           drone.halt()
         elif bt_status[0] == 1:
           print "away(turn left)"
+          drone.speed = turning_speed
           drone.turn_left()
         elif bt_status[1] == 1:
           print "going down"
           drone.move_down()
         elif bt_status[2] == 1:
           print "comeby(turn right)"
+          drone.speed = turning_speed
           drone.turn_right()
         elif bt_status[3] == 1:
           print "going up"
@@ -92,6 +105,7 @@ def get_gamepad_action(pad, drone):
         bt_status[e.button] = 0
         print bt_status
         drone.trim()
+        drone.speed = default_speed
 
 def main():
   pad = init_gamepad()
