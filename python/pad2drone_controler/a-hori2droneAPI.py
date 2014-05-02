@@ -25,7 +25,7 @@ def init_ardrone():
     drone.reset()
     return drone
   except:
-    print "Unexpected error:", sys.exc_info()[0
+    print "Unexpected error:", sys.exc_info()[0]
 
 def get_gamepad_action(pad, drone):
 
