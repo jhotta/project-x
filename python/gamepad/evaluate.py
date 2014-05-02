@@ -27,7 +27,7 @@ def get_gamepad_action(j):
     pygame.init()
     pygame.display.set_mode((240, 240))
     pygame.display.set_caption('Joystick') # タイトル
-    while 1:
+    while True:
         # print axis_value
         for e in pygame.event.get(): # イベントチェック
             # print e
