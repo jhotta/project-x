@@ -23,18 +23,15 @@ class flight_log(threading.Thread):
 
     def record(self):
         r_time = self.delta_time()
-        return "%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s\n"\
+        return "%s, %s, %s, %s, %s, %s, %s, %s\n"\
             % (str(r_time),
-               str(self.drone.navdata[0]["ctrl_state"]),
-               str(self.drone.navdata[0]["battery"]),
                str(self.drone.navdata[0]["theta"]),
                str(self.drone.navdata[0]["phi"]),
                str(self.drone.navdata[0]["psi"]),
                str(self.drone.navdata[0]["altitude"]),
                str(self.drone.navdata[0]["vx"]),
                str(self.drone.navdata[0]["vy"]),
-               str(self.drone.navdata[0]["vz"]),
-               str(self.drone.navdata[0]["num_frames"]))
+               str(self.drone.navdata[0]["vz"]))
 
     def recorder(self):
         f = open(self.fname, "a+")
@@ -63,7 +60,7 @@ def main():
 
     # maneuvering
     drone.set_speed(0.1)
-    drone.set_config("control:altitude_max", 500)
+    # drone.at_config("control:altitude_max", 500)
     print "Maneuvering"
     for i in range(10):
         for j in range(60):
@@ -80,7 +77,9 @@ def main():
     # landing
     print "Landing"
     drone.land()
-    time.sleep(1)
+
+    # halting
+    time.sleep(0.5)
     print "Halting"
     drone.halt()
 
