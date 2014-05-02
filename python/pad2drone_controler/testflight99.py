@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # import pdb; pdb.set_trace()
-# DEBUG = True
+DEBUG = True
+RECORD = True
 
 # import sys
 # import logging
@@ -22,16 +23,19 @@ class flight_log(threading.Thread):
         return time.time() - self.org_time
 
     def record(self):
-        r_time = self.delta_time()
-        return "%s, %s, %s, %s, %s, %s, %s, %s\n"\
-            % (str(r_time),
-               str(self.drone.navdata[0]["theta"]),
-               str(self.drone.navdata[0]["phi"]),
-               str(self.drone.navdata[0]["psi"]),
-               str(self.drone.navdata[0]["altitude"]),
-               str(self.drone.navdata[0]["vx"]),
-               str(self.drone.navdata[0]["vy"]),
-               str(self.drone.navdata[0]["vz"]))
+        try:
+            navdata = self.drone.get_navdata()
+            return "%s, %s, %s, %s, %s, %s, %s, %s\n"\
+                % (str(self.delta_time()),
+                   str(navdata[0]["theta"]),
+                   str(navdata[0]["phi"]),
+                   str(navdata[0]["psi"]),
+                   str(navdata[0]["altitude"]),
+                   str(navdata[0]["vx"]),
+                   str(navdata[0]["vy"]),
+                   str(navdata[0]["vz"]))
+        except:
+            pass
 
     def recorder(self):
         f = open(self.fname, "a+")
@@ -39,7 +43,8 @@ class flight_log(threading.Thread):
         f.close()
 
     def run(self):
-        print "Recorder Started."
+        if DEBUG:
+            print "Recorder Started."
         while True:
             # time.sleep(0.01)
             self.recorder()
@@ -48,39 +53,61 @@ class flight_log(threading.Thread):
 def main():
     drone = ard.ARDrone(is_ar_drone_2=True)
 
-    # flight logger thread start
-    th = flight_log(drone)
-    th.setDaemon(True)
-    th.start()
-    time.sleep(0.01)
+    if RECORD:
+        # flight recorder thread start
+        th = flight_log(drone)
+        th.setDaemon(True)
+        th.start()
+        time.sleep(0.01)
 
     # take off
-    print "Takeing off"
+    if DEBUG:
+        print "Takeing off"
     drone.takeoff()
 
     # maneuvering
     drone.set_speed(0.1)
-    # drone.at_config("control:altitude_max", 500)
-    print "Maneuvering"
+    if DEBUG:
+        print "setting speed"
+    try:
+        drone.at_config("control:altitude_max", 500)
+        print "setting altitude_max."
+    except:
+        pass
+
+    if DEBUG:
+        print "Maneuvering"
     for i in range(10):
         for j in range(60):
             drone.turn_left()
-            print "altitude: %s" % drone.navdata[0]["altitude"]
-            print "psi: %s" % drone.navdata[0]["psi"]
+            try:
+                m_navdata = drone.get_navdata()
+                if DEBUG:
+                    print "altitude: %s" % m_navdata[0]["altitude"]
+                    print "psi: %s" % m_navdata[0]["psi"]
+            except:
+                pass
             time.sleep(0.005)
         for k in range(60):
             drone.turn_right()
-            print "altitude: %s" % drone.navdata[0]["altitude"]
-            print "psi: %s" % drone.navdata[0]["psi"]
+            try:
+                m_navdata = drone.get_navdata()
+                if DEBUG:
+                    print "altitude: %s" % m_navdata[0]["altitude"]
+                    print "psi: %s" % m_navdata[0]["psi"]
+            except:
+                pass
             time.sleep(0.005)
 
     # landing
-    print "Landing"
+    if DEBUG:
+        print "Landing"
     drone.land()
 
     # halting
     time.sleep(0.5)
-    print "Halting"
+    if DEBUG:
+        print "Halting"
     drone.halt()
 
 
