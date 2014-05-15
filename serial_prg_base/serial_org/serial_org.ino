@@ -52,7 +52,7 @@ void loop() {
   buffer[5] = byte( c );
   buffer[6] = byte( '~' );
   Serial.write( buffer, 7 );
-  //Serial.println(c);  
+  // Serial.println(c);  
 
 
   buffer[0] = byte( '~');
