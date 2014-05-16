@@ -80,8 +80,9 @@ def main():
                     get_2byte_val(bucket[1], bucket[2])
                 print "-------\n"
             else:
-                print "data error: chechsum dose not match!"
+                print "data error: checksum dose not match!"
                 print bucket
+                print check
                 print "\n\n"
         except:
             print "pass"
