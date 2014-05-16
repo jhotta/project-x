@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# import pdb; pdb.set_trace()
 
 import serial
 import struct
@@ -39,7 +38,7 @@ def get_paylaod():
                 data[0] = data[1]
 
 
-def get_sonic_val(upper, lower):
+def get_2byte_val(upper, lower):
     return (upper << 8) + lower
 
 
@@ -56,8 +55,9 @@ def main():
         bucket = []
         check = []
         payload = get_paylaod()
-        payload.reverse()
         print payload
+        payload.reverse()
+        # print payload
         for item in payload:
             # print struct.unpack('B', item)[0]
             try:
@@ -77,7 +77,7 @@ def main():
                 print "-------"
                 print "checksum value: %s" % bucket[0]
                 print "sonic value: %d" % \
-                    get_sonic_val(bucket[1], bucket[2])
+                    get_2byte_val(bucket[1], bucket[2])
                 print "-------\n"
             else:
                 print "data error: chechsum dose not match!"
