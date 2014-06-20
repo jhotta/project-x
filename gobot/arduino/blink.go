@@ -10,7 +10,7 @@ func main() {
 
   firmata := new(gobotFirmata.FirmataAdaptor)
   firmata.Name = "firmata"
-  firmata.Port = "/dev/tty.usbmodemfd1341"
+  firmata.Port = "/dev/ttyACM0"
 
   led := gobotGPIO.NewLed(firmata)
   led.Name = "led"
